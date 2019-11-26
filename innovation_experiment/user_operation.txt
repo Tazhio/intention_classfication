@@ -1,0 +1,9 @@
+x:0
+y:0
+item_id0
+item_type:0
+off_setx:0
+off_sety0
+red:0
+blue0
+green0
