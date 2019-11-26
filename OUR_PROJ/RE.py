@@ -1,7 +1,11 @@
 import argparse
 from enum import Enum,unique
 import re
+import numpy as np
+from random import randint
 import random
+import os
+import time
 @unique
 class INTENT_TYPE(Enum):
     INSTANTIATION=1
@@ -26,17 +30,18 @@ class INTENT_FORMAT:
     def write_file(self):
         raise NotImplementedError
 
-
 class Instantiation(INTENT_FORMAT):
     re_collection=[
         '.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)',
         '(？P<item_name>.*)在哪里',
-
-
-
-
-
     ]
+
+    item_converter={
+        "桌子":'desk',
+        "椅子":'chair',
+        "椅":'chair'
+    }
+
     def __init__(self ):
         super().__init__()
 
@@ -47,6 +52,10 @@ class Instantiation(INTENT_FORMAT):
             'y': 0,
             'item_name': "桌子"
         }
+        x=randint(-7,7)
+        y=randint(-5,5)
+        data.update({'x':x,'y':y})
+
         matched=False
 
         for expressions in self.re_collection:
@@ -58,45 +67,22 @@ class Instantiation(INTENT_FORMAT):
                     data.update({k: val})
                     matched=True
                 break
+        item_command=data['item_name']
+        item_command=self.item_converter[item_command]
+        data.update({'item_name':item_command})
 
         if matched:
-            print()
+            iter_time=data['quantity']
+            iter_time=Chinese_String_to_int(iter_time)
+            for i in range(0,iter_time):
+                res_string='Instantiation '+ str(data['x'])+' '+str(data['y'])+' '+item_command
+                print(res_string)
         else:
             print('exception')
 
 
 
-
-        # str2 = '我需要十一个桌子 1'
-        # res = re.search('.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)', str2)
-        # print(res.groupdict())
-        #
-        # str3='椅子在哪里'
-        # res2=re.search('(？P<item_name>.*)在哪里',str3)
-        # print(res2.groupdict())
-
-
-
-
-
-
-
-
-
-    def write_file(self):
-        with open('output.txt','w')as f1:
-            f1.write('...')
-
-
-
-
 def info_extraction_re(text:str,intent:int):
-
-
-
-
-
-
 
 
     return
@@ -130,7 +116,6 @@ chinese_int={
     '佰':100,
     '仟':1000,
     '萬':10000
-
 
 
 }
@@ -175,7 +160,11 @@ class Heap():
 def Chinese_String_to_int(chinese_str:str):
     if type(chinese_str) is int:
         return chinese_str
-
+    try:
+        if type(int(chinese_str)) is int:
+            return int(chinese_str)
+    except ValueError:
+        pass
     heap=Heap()
     chinese_str=str.strip(chinese_str)
     for ele in chinese_str:
@@ -191,7 +180,6 @@ def Chinese_String_to_int(chinese_str:str):
 
     while not heap.isEmpty():
         res=res+heap.pop()
-
     return res
 
 
@@ -231,12 +219,21 @@ if __name__=='__main__':
     ress=Chinese_String_to_int("一百一十二")
     print(ress)
 
-    data = {
-        'quantity': 1,
-        'x': 0,
-        'y': 0,
-        'item_name': "桌子"
-    }
+    instant=Instantiation()
+    instant.analyze('我需要十一个桌子')
+
+
+
+
+
+    # data = {
+    #     'quantity': 1,
+    #     'x': 0,
+    #     'y': 0,
+    #     'item_name': "桌子"
+    # }
+    # for ele in data.values():
+    #     print(ele)
 
 
 
@@ -244,13 +241,6 @@ if __name__=='__main__':
 
     #先写，先实现功能，后续再想怎么修改和怎么优化可维护性吧。
     #先暂时这样，好像有不少细节要想啊，要有整个体系要架构，感觉还挺爽。
-
-
-
-
-
-
-
 
 
 
