@@ -1,7 +1,11 @@
 import argparse
 from enum import Enum,unique
 import re
-
+import numpy as np
+from random import randint
+import random
+import os
+import time
 @unique
 class INTENT_TYPE(Enum):
     INSTANTIATION=1
@@ -26,31 +30,59 @@ class INTENT_FORMAT:
     def write_file(self):
         raise NotImplementedError
 
-
 class Instantiation(INTENT_FORMAT):
-    re_collection={
+    re_collection=[
+        '.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)',
+        '(？P<item_name>.*)在哪里',
+    ]
 
-
-
-
+    item_converter={
+        "桌子":'desk',
+        "椅子":'chair',
+        "椅":'chair'
     }
+
     def __init__(self ):
         super().__init__()
 
-    def write_file(self):
-        with open('output.txt','w')as f1:
-            f1.write('...')
+    def analyze(self,chinese_str):
+        data={
+            'quantity': 1,
+            'x': 0,
+            'y': 0,
+            'item_name': "桌子"
+        }
+        x=randint(-7,7)
+        y=randint(-5,5)
+        data.update({'x':x,'y':y})
 
+        matched=False
+
+        for expressions in self.re_collection:
+            match_result=re.search(expressions,chinese_str)
+            if not match_result is None:
+                for k in match_result.groupdict().keys():
+                    res_dict = match_result.groupdict()
+                    val = res_dict[k]
+                    data.update({k: val})
+                    matched=True
+                break
+        item_command=data['item_name']
+        item_command=self.item_converter[item_command]
+        data.update({'item_name':item_command})
+
+        if matched:
+            iter_time=data['quantity']
+            iter_time=Chinese_String_to_int(iter_time)
+            for i in range(0,iter_time):
+                res_string='Instantiation '+ str(data['x'])+' '+str(data['y'])+' '+item_command
+                print(res_string)
+        else:
+            print('exception')
 
 
 
 def info_extraction_re(text:str,intent:int):
-
-
-
-
-
-
 
 
     return
@@ -84,7 +116,6 @@ chinese_int={
     '佰':100,
     '仟':1000,
     '萬':10000
-
 
 
 }
@@ -127,6 +158,13 @@ class Heap():
 
 
 def Chinese_String_to_int(chinese_str:str):
+    if type(chinese_str) is int:
+        return chinese_str
+    try:
+        if type(int(chinese_str)) is int:
+            return int(chinese_str)
+    except ValueError:
+        pass
     heap=Heap()
     chinese_str=str.strip(chinese_str)
     for ele in chinese_str:
@@ -142,7 +180,6 @@ def Chinese_String_to_int(chinese_str:str):
 
     while not heap.isEmpty():
         res=res+heap.pop()
-
     return res
 
 
@@ -158,7 +195,6 @@ if __name__=='__main__':
     # 中文匹配正则
     chinese_pattern = '[\u4e00-\u9fa5]+'
     says = re.findall(chinese_pattern, test)
-
     # 输出提取的内容
     hi = ''
     for say in says:
@@ -169,12 +205,13 @@ if __name__=='__main__':
     # 打印结果：你好,世界
     print(hi)
 
-    # str100 = 'user<user@test.com>'
-    # print(re.search('<(.+)>', str100).group(1))
-
-    str2='我需要十一个桌子 1'
-    res=re.search('.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)',str2)
+    str2 = '我需要十一个桌子 1'
+    res = re.search('.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)', str2)
     print(res.groupdict())
+
+    str3 = '椅子在哪里'
+    res2 = re.search('(?P<item_name>.*)在哪里', str3)
+    print(res2.groupdict())
 
     s = '1102231990xxxxxxxx'
     res = re.search('(?P<province>\d{3})(?P<city>\d{3})(?P<born_year>\d{4})', s)
@@ -182,32 +219,7 @@ if __name__=='__main__':
     ress=Chinese_String_to_int("一百一十二")
     print(ress)
 
-
-    #先写，先实现功能，后续再想怎么修改和怎么优化可维护性吧。
-    #先暂时这样，好像有不少细节要想啊，要有整个体系要架构，感觉还挺爽。
-
+    instant=Instantiation()
+    instant.analyze('我需要十一个桌子')
 
 
-
-
-
-
-
-
-
-
-
-#pseduo-code:
-# 用栈实现转化：
-# 如果新读入的汉字(假设它代表的数字为N)
-# 比栈顶数字还要大
-# {
-#     弹出栈中所有比N小的元素，并将这些元素累加，假设结果为S;
-# 将S * N入栈；
-# }
-# 否则
-# {
-#     将N直接入栈;
-# }
-# 最后将栈中所有数字相加。
-#https://blog.csdn.net/taoqick/article/details/40819095

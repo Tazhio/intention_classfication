@@ -24,8 +24,6 @@ TYPE_NAME={
 
 class INTENT_FORMAT:
     def __init__(self):
-        # self.type=type_
-        # self.re_collection=re_collection
         return
     def write_file(self):
         raise NotImplementedError
@@ -73,7 +71,7 @@ class Instantiation(INTENT_FORMAT):
 
         if matched:
             iter_time=data['quantity']
-            iter_time=Chinese_String_to_int(iter_time)
+            iter_time=CHINESE_STRING_TO_INT(iter_time)
             for i in range(0,iter_time):
                 res_string='Instantiation '+ str(data['x'])+' '+str(data['y'])+' '+item_command
                 print(res_string)
@@ -82,7 +80,9 @@ class Instantiation(INTENT_FORMAT):
 
 
 
+
 def info_extraction_re(text:str,intent:int):
+
 
 
     return
@@ -156,8 +156,7 @@ class Heap():
         return value
 
 
-
-def Chinese_String_to_int(chinese_str:str):
+def CHINESE_STRING_TO_INT(chinese_str:str):
     if type(chinese_str) is int:
         return chinese_str
     try:
@@ -183,80 +182,9 @@ def Chinese_String_to_int(chinese_str:str):
     return res
 
 
-
-INSTANCIATION=["给"]
-
 if __name__=='__main__':
 
-
-    # 测试文本
-    test = '<h1>hello 你好, world 世界</h1>'
-
-    # 中文匹配正则
-    chinese_pattern = '[\u4e00-\u9fa5]+'
-    says = re.findall(chinese_pattern, test)
-    # 输出提取的内容
-    hi = ''
-    for say in says:
-        # print(say)
-        hi += say + ','
-    hi = hi.strip(',')
-
-    # 打印结果：你好,世界
-    print(hi)
-
-    str2 = '我需要十一个桌子 1'
-    res = re.search('.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)', str2)
-    print(res.groupdict())
-
-    str3 = '椅子在哪里'
-    res2 = re.search('(?P<item_name>.*)在哪里', str3)
-    print(res2.groupdict())
-
-    s = '1102231990xxxxxxxx'
-    res = re.search('(?P<province>\d{3})(?P<city>\d{3})(?P<born_year>\d{4})', s)
-    print(res.groupdict())
-    ress=Chinese_String_to_int("一百一十二")
-    print(ress)
 
     instant=Instantiation()
     instant.analyze('我需要十一个桌子')
 
-
-
-
-
-    # data = {
-    #     'quantity': 1,
-    #     'x': 0,
-    #     'y': 0,
-    #     'item_name': "桌子"
-    # }
-    # for ele in data.values():
-    #     print(ele)
-
-
-
-
-
-    #先写，先实现功能，后续再想怎么修改和怎么优化可维护性吧。
-    #先暂时这样，好像有不少细节要想啊，要有整个体系要架构，感觉还挺爽。
-
-
-
-
-
-#pseduo-code:
-# 用栈实现转化：
-# 如果新读入的汉字(假设它代表的数字为N)
-# 比栈顶数字还要大
-# {
-#     弹出栈中所有比N小的元素，并将这些元素累加，假设结果为S;
-# 将S * N入栈；
-# }
-# 否则
-# {
-#     将N直接入栈;
-# }
-# 最后将栈中所有数字相加。
-#https://blog.csdn.net/taoqick/article/details/40819095
