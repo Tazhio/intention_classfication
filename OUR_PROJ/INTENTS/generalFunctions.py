@@ -95,3 +95,4 @@ def CHINESE_STRING_TO_INT(chinese_str:str):
     while not heap.isEmpty():
         res=res+heap.pop()
     return res
+

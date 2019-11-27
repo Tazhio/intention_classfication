@@ -32,13 +32,17 @@ class Instantiation(INTENT_FORMAT):
     re_collection=[
         '.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)',
         '(？P<item_name>.*)在哪里',
+        '那个(?P<loc_discript>.*)的(?P<item_name>.*)呢',
+
     ]
 
     item_converter={
         "桌子":'desk',
+        "桌": 'desk',
         "椅子":'chair',
         "椅":'chair'
     }
+
 
     def __init__(self ):
         super().__init__()

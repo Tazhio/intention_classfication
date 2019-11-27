@@ -8,12 +8,25 @@ class Instantiation(INTENT_FORMAT):
     re_collection=[
         '.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)个(?P<item_name>.*)',
         '(？P<item_name>.*)在哪里',
+        '.*需要(?P<quantity>[零一二三四五六七八九十百千万亿壹贰叁肆伍陆柒捌玖拾佰仟萬1234567890]+)张(?P<item_name>.*)',
     ]
 
     item_converter={
         "桌子":'desk',
         "椅子":'chair',
         "椅":'chair'
+    }
+
+    location_converter={
+        "正中央":(0,0),
+        "左上角":(-6,4),
+        "右上角":(6,4),
+        "左下角":(-6,-4),
+        "右下角":(6,-4),
+        "左":(-6,0),
+        "右":(6,0),
+        "上":(0,4),
+        "下":(0,-4)
     }
 
     def __init__(self ):
@@ -25,6 +38,7 @@ class Instantiation(INTENT_FORMAT):
             'x': 0,
             'y': 0,
             'item_name': "桌子"
+
         }
         x=randint(-7,7)
         y=randint(-5,5)
@@ -44,6 +58,9 @@ class Instantiation(INTENT_FORMAT):
         item_command=data['item_name']
         item_command=self.item_converter[item_command]
         data.update({'item_name':item_command})
+        # if 'loc_descript' in data.keys():
+
+
 
         if matched:
             iter_time=data['quantity']
