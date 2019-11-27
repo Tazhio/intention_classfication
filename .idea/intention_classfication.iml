@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Capsule-NLU-master" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/OUR_PROJ" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/reform_1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/clean_up" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/clean_up/INTENTS" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
