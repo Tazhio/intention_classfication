@@ -113,7 +113,7 @@ class ChangeColor1(INTENT_FORMAT):
             iter_time=CHINESE_STRING_TO_INT(iter_time)
             # item_command=data[it\]
             for i in range(0,iter_time):
-                res_string='ChangeColor '+ str(data['item_name'])+' '+str(data['red'])+' '+data['green']+' '+str(data['blue'])+' '+data['alpha']
+                res_string='ChangeColor '+ str(data['item_name'])+' '+str(data['red'])+' '+str(data['green'])+' '+str(data['blue'])+' '+str(data['alpha'])
                 print(res_string)
         else:
             print('exception')
