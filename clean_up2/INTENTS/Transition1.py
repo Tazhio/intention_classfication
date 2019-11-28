@@ -8,7 +8,7 @@ from INTENTS.generalFunctions import CHINESE_STRING_TO_INT
 #再优化吧
 
 
-class Transition(INTENT_FORMAT):
+class Transition1(INTENT_FORMAT):
     re_collection=[
         '个(?P<location>.*)的',
         '在(?P<location>.*)',

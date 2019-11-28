@@ -2,8 +2,8 @@ import argparse
 import sys
 from INTENTS.Instantiation import Instantiation
 from INTENTS.Delete1 import Delete
-from combined_model import intent_classifier
-from INTENTS.Transition import Transition
+from use_classifier import intent_classifier
+from INTENTS.Transition1 import Transition1
 from INTENTS.ChangeColor1 import ChangeColor1
 
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         delete1.analyze(user_sentence)
 
     if(intent==3):
-        transition=Transition()
+        transition=Transition1()
         transition.analyze(user_sentence)
 
     if(intent==4):
@@ -40,13 +40,3 @@ if __name__ == '__main__':
     #     print("There is no more item to delete")
 
 
-
-
-
-
-
-
-    # network_file = args.network_file
-    # seed = args.seed
-    # diffusion_model = args.diffusion_model
-    # time_limit = args.time_limit
