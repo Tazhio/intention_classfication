@@ -10,6 +10,7 @@
       <sourceFolder url="file://$MODULE_DIR$/clean_up/INTENTS" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/complete_classifier" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/clean_up2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pure_re" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

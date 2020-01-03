@@ -54,8 +54,8 @@ def cleaning(sentences):
 
 
 cleaned_words = cleaning(sentences)
-print(len(cleaned_words))
-print(cleaned_words[:2])
+# print(len(cleaned_words))
+# print(cleaned_words[:2])
 
 def create_tokenizer(words, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'):
     token = Tokenizer(filters=filters)
@@ -69,8 +69,8 @@ def max_length(words):
 word_tokenizer = create_tokenizer(cleaned_words)
 vocab_size = len(word_tokenizer.word_index) + 1
 max_length = max_length(cleaned_words)
-
-print("Vocab Size = %d and Maximum length = %d" % (vocab_size, max_length))
+#
+# print("Vocab Size = %d and Maximum length = %d" % (vocab_size, max_length))
 
 def encoding_doc(token, words):
     return (token.texts_to_sequences(words))
@@ -83,10 +83,10 @@ def padding_doc(encoded_doc, max_length):
 
 padded_doc = padding_doc(encoded_doc, max_length)
 
-
-print(padded_doc[:5])
-
-print("Shape of padded docs = ", padded_doc.shape)
+#
+# print(padded_doc[:5])
+#
+# print("Shape of padded docs = ", padded_doc.shape)
 
 # tokenizer with filter changed
 output_tokenizer = create_tokenizer(unique_intent, filters='!"#$%&()*+,-/:;<=>?@[\]^`{|}~')
@@ -105,12 +105,12 @@ from sklearn.model_selection import train_test_split
 
 
 train_X, val_X, train_Y, val_Y = train_test_split(padded_doc, output_one_hot, shuffle=True, test_size=0.2)
-
-print("Shape of train_X = %s and train_Y = %s" % (train_X.shape, train_Y.shape))
-print("Shape of val_X = %s and val_Y = %s" % (val_X.shape, val_Y.shape))
-
-
-
+#
+# print("Shape of train_X = %s and train_Y = %s" % (train_X.shape, train_Y.shape))
+# print("Shape of val_X = %s and val_Y = %s" % (val_X.shape, val_Y.shape))
+#
+#
+#
 
 def create_model(vocab_size, max_length):
     model = Sequential()
@@ -127,7 +127,7 @@ def create_model(vocab_size, max_length):
 model = create_model(vocab_size, max_length)
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
-model.summary()
+# model.summary()
 #
 #
 # filename = 'model.h5'
@@ -157,9 +157,9 @@ def get_final_output(pred, classes):
     ids = np.argsort(-predictions)
     classes = classes[ids]
     predictions = -np.sort(-predictions)
-
-    for i in range(pred.shape[1]):
-        print("%s has confidence = %s" % (classes[i], (predictions[i])))
+    #
+    # for i in range(pred.shape[1]):
+    #     print("%s has confidence = %s" % (classes[i], (predictions[i])))
 
     return classes[0]
 

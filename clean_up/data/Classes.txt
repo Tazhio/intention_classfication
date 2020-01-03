@@ -1,4 +1,0 @@
-Instantiation
-Delete
-Transition
-ChangeColor
